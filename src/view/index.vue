@@ -25,23 +25,22 @@
     <div class="main">
       <!-- 标签分类 -->
       <div v-show="tagShow1" class="readLayout">
-        
         <!-- 标签按钮 -->
         <div class="tag">
           <el-button style="font-size: 20px" @click="HcBtn('1')"
-            ><el-icon><Orange /></el-icon>Html+Css's question</el-button
+            ><el-icon><Orange /></el-icon>Html+Css's Q&A</el-button
           >
           <el-button style="font-size: 20px" @click="jsBtn('2')"
-            ><el-icon><Cherry /></el-icon>JavaScript's question</el-button
+            ><el-icon><Cherry /></el-icon>JavaScript's Q&A</el-button
           >
           <el-button style="font-size: 20px" @click="vueBtn('3')"
-            ><el-icon><Apple /></el-icon>Vue's question</el-button
+            ><el-icon><Apple /></el-icon>Vue's Q&A</el-button
           >
           <el-button style="font-size: 20px" @click="JqBtn('4')"
-            ><el-icon><Pear /></el-icon>Jquery's question</el-button
+            ><el-icon><Pear /></el-icon>Jquery's Q&A</el-button
           >
           <el-button style="font-size: 20px" @click="AjaxBtn('5')"
-            ><el-icon><Grape /></el-icon>Ajax's question</el-button
+            ><el-icon><Grape /></el-icon>Ajax's Q&A</el-button
           >
         </div>
 
@@ -146,10 +145,15 @@
             ></el-option>
           </el-select>
         </div>
-        <div><el-button @click="confirm">上传</el-button></div>
+        <div><el-button @click="uploadingBtn">上传</el-button></div>
 
         <!-- 确定选择后的弹窗内容 -->
-        <el-dialog v-model="dialogVisible" :title="title" width="800">
+        <el-dialog
+          @closed="closed"
+          v-model="dialogVisible"
+          :title="title"
+          width="800"
+        >
           <el-form
             ref="formRef"
             style="max-width: 600px"
@@ -244,6 +248,7 @@ let HcShow = ref(false);
 let jqShow = ref(false);
 let AjaxShow = ref(false);
 
+// 弹窗显示
 let dialogVisible = ref(false);
 
 // 选择Html+Css的显示
@@ -321,10 +326,19 @@ const queryParamsType = ref({
 let choice = ref("");
 
 let title = ref("");
-// 确定选择
-function confirm() {
-  // 确定后弹出弹窗内容
-  dialogVisible.value = true;
+// 上传按钮
+function uploadingBtn() {
+  if (choice.value == "") {
+    ElMessage({
+      message: "请先选择类型",
+      type: "warning",
+    });
+    // 不显示弹窗
+    dialogVisible.value = false;
+  } else {
+    // 确定后弹出弹窗内容
+    dialogVisible.value = true;
+  }
 
   if (choice.value == 1) {
     title.value = "添加问题与答案到html+Css库";
@@ -342,6 +356,12 @@ function confirm() {
 
   console.log(choice.value);
 }
+
+// 关闭弹窗后的操作
+function closed() {
+  choice.value = "";
+}
+
 let typeList = ref([]);
 
 // 获取类型
@@ -383,7 +403,7 @@ const submitForm = (formEl) => {
         console.log(res);
         // 重置表单
         formEl.resetFields();
-        qaBankAddParams.value = ref('');
+        qaBankAddParams.value = ref("");
       });
     } else {
       console.log("error submit!");
@@ -437,8 +457,7 @@ const resetForm = (formEl) => {
 .readLayout {
   display: flex;
   flex-direction: column;
-  /* margin-top: 20px; */
-  padding-left: 30px;
+  margin-top: 10px;
 }
 
 /* width */
@@ -467,7 +486,8 @@ const resetForm = (formEl) => {
   background-color: rgb(228, 228, 228); /*滚动条的背景颜色*/
 }
 
-/* .tag {
+.tag {
   margin-bottom: 10px;
-} */
+  margin-left: 5%;
+}
 </style>
