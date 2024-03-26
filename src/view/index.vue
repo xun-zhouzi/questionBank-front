@@ -145,7 +145,10 @@
             ></el-option>
           </el-select>
         </div>
-        <div><el-button @click="uploadingBtn">上传</el-button></div>
+        <div>
+          <el-button @click="uploadingBtn">上传</el-button
+          ><el-button @click="lookListBtn">查看</el-button>
+        </div>
 
         <!-- 确定选择后的弹窗内容 -->
         <el-dialog
@@ -186,6 +189,50 @@
             </el-form-item>
           </el-form>
         </el-dialog>
+
+        <!-- 点击查看后的弹窗 -->
+        <el-dialog
+          @closed="closed"
+          v-model="lookListVisible"
+          title="查看面试题库"
+          width="952"
+        >
+          <!-- <div style="margin: 20px">
+            <el-button style="font-size: 14px" @click="lookHtmlCssBtn()"
+              ><el-icon><Orange /></el-icon>Html/Css Q&A</el-button
+            >
+            <el-button style="font-size: 14px" @click="lookJavaScriptBtn()"
+              ><el-icon><Cherry /></el-icon>JavaScript Q&A</el-button
+            >
+            <el-button style="font-size: 14px" @click="lookVueBtn()"
+              ><el-icon><Apple /></el-icon>Vue Q&A</el-button
+            >
+            <el-button style="font-size: 14px" @click="lookJqueryBtn()"
+              ><el-icon><Pear /></el-icon>Jquery Q&A</el-button
+            >
+            <el-button style="font-size: 14px" @click="lookAjaxBtn()"
+              ><el-icon><Grape /></el-icon>Ajax Q&A</el-button
+            >
+          </div> -->
+
+          <el-table border :data="tableData" style="width: 100%">
+            <el-table-column property="id" label="序号" width="120" />
+            <el-table-column property="question" label="问题" width="260" />
+            <el-table-column property="answer" label="答案" width="440" />
+            <el-table-column label=" 操 作" class="custom-header" width="100">
+              <template #default="scope">
+                <div>
+                  <el-button
+                    :plain="true"
+                    size="small"
+                    @click="deleteBtn(scope)"
+                    >删除</el-button
+                  >
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-dialog>
       </div>
 
       <!-- 第三个区域展示 -->
@@ -207,7 +254,12 @@ import {
   Grape,
   Orange,
 } from "@element-plus/icons-vue";
-import { getType, getQuestion, addQuestion } from "/src/api/questionBank";
+import {
+  getType,
+  getQuestion,
+  addQuestion,
+  deleteQuestion,
+} from "/src/api/questionBank";
 import { ElMessage } from "element-plus";
 onMounted(() => {
   // 默认选择第一个标签
@@ -308,11 +360,16 @@ let questionBankParams = ref({
   answer: "",
 });
 
-// 请求问题返回问题与答案
+// 请求问题根据类型返回问题与答案
 function QuestionList(id) {
-  questionBankParams.value.typeid = id;
+  console.log(11);
+  if (id) {
+    questionBankParams.value.typeid = id;
+  }
+
   getQuestion(questionBankParams.value).then((res) => {
     questionBank.value = res.data;
+    tableData.value = res.data;
   });
 }
 
@@ -326,6 +383,7 @@ const queryParamsType = ref({
 let choice = ref("");
 
 let title = ref("");
+
 // 上传按钮
 function uploadingBtn() {
   if (choice.value == "") {
@@ -351,10 +409,7 @@ function uploadingBtn() {
   } else if (choice.value == 5) {
     title.value = "添加问题与答案到Ajax库";
   }
-
   qaBankAddParams.value.typeid = choice.value;
-
-  console.log(choice.value);
 }
 
 // 关闭弹窗后的操作
@@ -362,6 +417,7 @@ function closed() {
   choice.value = "";
 }
 
+// 类型
 let typeList = ref([]);
 
 // 获取类型
@@ -373,6 +429,7 @@ function getList() {
 }
 // 表单
 const formRef = ref();
+
 const qaValidateForm = reactive({
   typeid: "",
   question: "",
@@ -418,10 +475,37 @@ const resetForm = (formEl) => {
   formEl.resetFields();
 };
 
-// 选择类型后的添加
+// 给查看显示弹窗设置初始值
+let lookListVisible = ref(false);
+
+let tableData = ref([]);
+let queryParamsList = ref({
+  id: "",
+  typeid: "",
+  question: "",
+  answer: "",
+});
+// 查看按钮
+function lookListBtn() {
+  lookListVisible.value = true;
+  getQuestion(queryParamsList.value).then((res) => {
+    tableData.value = res.data;
+    console.log(res.data);
+  });
+}
+
+function deleteBtn(e) {
+  deleteQuestion(e.row.id).then(() => {
+    ElMessage({
+      message: "删除成功",
+      type: "success",
+    });
+    QuestionList();
+  });
+}
 </script>
 
-<style>
+<style scoped>
 * {
   list-style: none;
   line-height: 50px;

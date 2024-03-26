@@ -28,12 +28,22 @@ export function addQuestion(data) {
     })
 }
 
-// 修改问题
-// export default function getQuestion(query) { 
-//     return request({
+// 编辑
+export function editQuestion(data) { 
+    return request({
+        url: '/system/question',
+        method: 'put',
+        data:data
+    })
+}
 
-//     })
-// }
+// 删除
+export function deleteQuestion(id) { 
+    return request({
+        url: '/system/question/'+id,
+        method: 'delete',
+    })
+}
 
 // 删除问题
 // export default function getQuestion(query) { 
