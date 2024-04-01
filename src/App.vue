@@ -8,7 +8,7 @@
 import router from "./router";
 import { onMounted } from "vue";
 onMounted(() => {
-  router.push("/index");
+  router.push("/login");
 });
 </script>
 

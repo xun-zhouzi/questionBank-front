@@ -17,33 +17,43 @@
         </el-menu-item>
         <el-menu-item index="3">
           <el-icon><Avatar /></el-icon>
-          关于
+          作者
         </el-menu-item>
       </el-menu>
     </div>
+    <!-- 标签按钮 -->
+    <div class="tag" v-show="tagShow">
+      <div class="btnMargin">
+        <el-button style="font-size: 20px" @click="HcBtn('1')"
+          ><el-icon><Orange /></el-icon>Html+Css's Q&A</el-button
+        >
+      </div>
+      <div class="btnMargin">
+        <el-button style="font-size: 20px" @click="jsBtn('2')"
+          ><el-icon><Cherry /></el-icon>JavaScript's Q&A</el-button
+        >
+      </div>
+      <div class="btnMargin">
+        <el-button style="font-size: 20px" @click="vueBtn('3')"
+          ><el-icon><Apple /></el-icon>Vue's Q&A</el-button
+        >
+      </div>
+      <div class="btnMargin">
+        <el-button style="font-size: 20px" @click="JqBtn('4')"
+          ><el-icon><Pear /></el-icon>Jquery's Q&A</el-button
+        >
+      </div>
+      <div class="btnMargin">
+        <el-button style="font-size: 20px" @click="AjaxBtn('5')"
+          ><el-icon><Grape /></el-icon>Ajax's Q&A</el-button
+        >
+      </div>
+    </div>
+
     <!-- 显示内容 -->
     <div class="main">
       <!-- 标签分类 -->
       <div v-show="tagShow1" class="readLayout">
-        <!-- 标签按钮 -->
-        <div class="tag">
-          <el-button style="font-size: 20px" @click="HcBtn('1')"
-            ><el-icon><Orange /></el-icon>Html+Css's Q&A</el-button
-          >
-          <el-button style="font-size: 20px" @click="jsBtn('2')"
-            ><el-icon><Cherry /></el-icon>JavaScript's Q&A</el-button
-          >
-          <el-button style="font-size: 20px" @click="vueBtn('3')"
-            ><el-icon><Apple /></el-icon>Vue's Q&A</el-button
-          >
-          <el-button style="font-size: 20px" @click="JqBtn('4')"
-            ><el-icon><Pear /></el-icon>Jquery's Q&A</el-button
-          >
-          <el-button style="font-size: 20px" @click="AjaxBtn('5')"
-            ><el-icon><Grape /></el-icon>Ajax's Q&A</el-button
-          >
-        </div>
-
         <!-- 文本布局 -->
         <div class="textLayout">
           <!-- 显示Html+Css的内容 -->
@@ -146,8 +156,8 @@
           </el-select>
         </div>
         <div>
-          <el-button @click="uploadingBtn">上传</el-button
-          ><el-button @click="lookListBtn">查看</el-button>
+          <el-button @click="uploadingBtn">上传题库</el-button
+          ><el-button @click="lookListBtn">查看题库</el-button>
         </div>
 
         <!-- 确定选择后的弹窗内容 -->
@@ -194,32 +204,35 @@
         <el-dialog
           @closed="closed"
           v-model="lookListVisible"
-          title="查看面试题库"
-          width="952"
+          title="全部题库"
+          width="999"
         >
-          <!-- <div style="margin: 20px">
-            <el-button style="font-size: 14px" @click="lookHtmlCssBtn()"
-              ><el-icon><Orange /></el-icon>Html/Css Q&A</el-button
-            >
-            <el-button style="font-size: 14px" @click="lookJavaScriptBtn()"
-              ><el-icon><Cherry /></el-icon>JavaScript Q&A</el-button
-            >
-            <el-button style="font-size: 14px" @click="lookVueBtn()"
-              ><el-icon><Apple /></el-icon>Vue Q&A</el-button
-            >
-            <el-button style="font-size: 14px" @click="lookJqueryBtn()"
-              ><el-icon><Pear /></el-icon>Jquery Q&A</el-button
-            >
-            <el-button style="font-size: 14px" @click="lookAjaxBtn()"
-              ><el-icon><Grape /></el-icon>Ajax Q&A</el-button
-            >
-          </div> -->
-
           <el-table border :data="tableData" style="width: 100%">
-            <el-table-column property="id" label="序号" width="120" />
-            <el-table-column property="question" label="问题" width="260" />
-            <el-table-column property="answer" label="答案" width="440" />
-            <el-table-column label=" 操 作" class="custom-header" width="100">
+            <el-table-column
+              prop="typeid"
+              label="类型"
+              width="80"
+              header-align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="question"
+              label="问题"
+              width="250"
+              header-align="center"
+            />
+            <el-table-column
+              prop="answer"
+              label="答案"
+              width="566"
+              header-align="center"
+            />
+            <el-table-column
+              label=" 操 作"
+              class="custom-header"
+              width="70"
+              header-align="center"
+            >
               <template #default="scope">
                 <div>
                   <el-button
@@ -232,11 +245,26 @@
               </template>
             </el-table-column>
           </el-table>
+
+          <!-- 分页 -->
+          <el-pagination
+            style="padding-top: 20px; padding-left: 20px"
+            :page-sizes="[10, 20]"
+            v-model:page-size="pageSize"
+            v-model:current-page="pageNum"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            background
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalLimit"
+          />
         </el-dialog>
       </div>
 
       <!-- 第三个区域展示 -->
-      <div class="tag3" v-show="tagShow3">敬请期待..</div>
+      <div class="tag3" v-show="tagShow3">
+        
+      </div>
     </div>
   </div>
 </template>
@@ -264,16 +292,21 @@ import { ElMessage } from "element-plus";
 onMounted(() => {
   // 默认选择第一个标签
   tagShow1.value = true;
+  tagShow.value = true;
   getList();
 });
+
+const tagShow = ref(false);
 
 // 选择导航的显示
 const handleSelect = (key) => {
   if (key == 1) {
+    tagShow.value = true;
     tagShow1.value = true;
     tagShow2.value = false;
     tagShow3.value = false;
   } else if (key == 2) {
+    tagShow.value = false;
     jsShow.value = false;
     vueShow.value = false;
     HcShow.value = false;
@@ -281,6 +314,7 @@ const handleSelect = (key) => {
     tagShow2.value = true;
     tagShow3.value = false;
   } else if (key == 3) {
+    tagShow.value = false;
     jsShow.value = false;
     vueShow.value = false;
     HcShow.value = false;
@@ -302,6 +336,23 @@ let AjaxShow = ref(false);
 
 // 弹窗显示
 let dialogVisible = ref(false);
+
+let totalLimit = ref(10);
+// 避开vue提示未定义
+let pageNum = ref();
+let pageSize = ref();
+
+// 每页有多少条数据
+const handleSizeChange = (val) => {
+  queryParamsList.value.pageSize = val;
+  lookListBtn();
+};
+
+// 当前是第几页
+const handleCurrentChange = (val) => {
+  queryParamsList.value.pageNum = val;
+  lookListBtn();
+};
 
 // 选择Html+Css的显示
 function HcBtn(id) {
@@ -353,7 +404,7 @@ function AjaxBtn(id) {
 // 请求问题与相应答案的数据
 let questionBank = ref([]);
 
-// 请求体
+// 阅读中的请求体
 let questionBankParams = ref({
   typeid: "",
   question: "",
@@ -362,14 +413,13 @@ let questionBankParams = ref({
 
 // 请求问题根据类型返回问题与答案
 function QuestionList(id) {
-  console.log(11);
   if (id) {
     questionBankParams.value.typeid = id;
   }
 
   getQuestion(questionBankParams.value).then((res) => {
-    questionBank.value = res.data;
-    tableData.value = res.data;
+    questionBank.value = res.rows;
+    tableData.value = res.rows;
   });
 }
 
@@ -424,7 +474,6 @@ let typeList = ref([]);
 function getList() {
   getType(queryParamsType.value).then((res) => {
     typeList.value = res.rows;
-    console.log(typeList.value);
   });
 }
 // 表单
@@ -457,13 +506,11 @@ const submitForm = (formEl) => {
         });
         // 成功后关闭弹窗
         dialogVisible.value = false;
-        console.log(res);
         // 重置表单
         formEl.resetFields();
         qaBankAddParams.value = ref("");
       });
     } else {
-      console.log("error submit!");
       return false;
     }
   });
@@ -478,22 +525,49 @@ const resetForm = (formEl) => {
 // 给查看显示弹窗设置初始值
 let lookListVisible = ref(false);
 
+// table表格绑定数据
 let tableData = ref([]);
+
+// 上传中查看的请求体
 let queryParamsList = ref({
+  pageNum: 1,
+  pageSize: 10,
   id: "",
   typeid: "",
   question: "",
   answer: "",
 });
+
+// 封装循环的一个方法
+function circulation() {
+  for (let i = 0; i < tableData.value.length; i++) {
+    if (tableData.value[i].typeid == 1) {
+      tableData.value[i].typeid = "Html";
+    } else if (tableData.value[i].typeid == 2) {
+      tableData.value[i].typeid = "Js";
+    } else if (tableData.value[i].typeid == 3) {
+      tableData.value[i].typeid = "Vue";
+    } else if (tableData.value[i].typeid == 4) {
+      tableData.value[i].typeid = "Jquery";
+    } else if (tableData.value[i].typeid == 5) {
+      tableData.value[i].typeid = "Ajax";
+    }
+  }
+}
+
 // 查看按钮
 function lookListBtn() {
   lookListVisible.value = true;
+  // 通过选择类型进行查看相应类型数据
+  queryParamsList.value.typeid = choice.value;
   getQuestion(queryParamsList.value).then((res) => {
-    tableData.value = res.data;
-    console.log(res.data);
+    tableData.value = res.rows;
+    circulation();
+    totalLimit.value = res.total;
   });
 }
 
+// 删除按钮
 function deleteBtn(e) {
   deleteQuestion(e.row.id).then(() => {
     ElMessage({
@@ -518,20 +592,19 @@ function deleteBtn(e) {
 .tag2,
 .tag3 {
   overflow-y: scroll;
-  height: 600px;
-  width: 70%;
+  height: 640px;
+  width: 75%;
   padding: 40px;
-  background-image: url("../assets/线条背景.jpg");
+  background-image: url("../assets/background.jpg");
   background-size: 110%;
 }
 .main {
-  width: 90%;
+  width: 99%;
 }
 .app {
   display: flex;
   margin-top: 3%;
   justify-content: center;
-  /* width: 80%; */
 }
 
 .content {
@@ -541,7 +614,6 @@ function deleteBtn(e) {
 .readLayout {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
 }
 
 /* width */
@@ -571,7 +643,14 @@ function deleteBtn(e) {
 }
 
 .tag {
-  margin-bottom: 10px;
-  margin-left: 5%;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 5%; */
+}
+
+.btnMargin {
+  margin-bottom: 50px;
 }
 </style>

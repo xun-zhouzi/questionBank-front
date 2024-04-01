@@ -45,39 +45,5 @@ export function deleteQuestion(id) {
     })
 }
 
-// 删除问题
-// export default function getQuestion(query) { 
-//     return request({
 
-//     })
-// }
 
-// 请求答案列表
-export  function getAnswer(query) { 
-    return request({
-        url: '/system/answer/list',
-        method: 'get',
-        params: query,
-    })
-}
-
-// 新增答案
-// export default function getQuestion(query) { 
-//     return request({
-
-//     })
-// }
-
-// 修改答案
-// export default function getQuestion(query) { 
-//     return request({
-
-//     })
-// }
-
-// 删除答案
-// export default function getQuestion(query) { 
-//     return request({
-
-//     })
-// }
