@@ -6,18 +6,25 @@
         default-active="1"
         class="el-menu-vertical-demo"
         @select="handleSelect"
+        mode="vertical"
       >
         <el-menu-item index="1">
           <el-icon><View /></el-icon>
-          阅读
+          查阅
         </el-menu-item>
         <el-menu-item index="2">
           <el-icon><Plus /></el-icon>
           上传
         </el-menu-item>
+
         <el-menu-item index="3">
           <el-icon><Avatar /></el-icon>
-          作者
+          个人
+        </el-menu-item>
+
+        <el-menu-item index="4">
+          <el-icon><Comment /></el-icon>
+          留言
         </el-menu-item>
       </el-menu>
     </div>
@@ -25,27 +32,27 @@
     <div class="tag" v-show="tagShow">
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="HcBtn('1')"
-          ><el-icon><Orange /></el-icon>Html+Css's Q&A</el-button
+          ><el-icon><Orange /></el-icon>Html+Css</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="jsBtn('2')"
-          ><el-icon><Cherry /></el-icon>JavaScript's Q&A</el-button
+          ><el-icon><Cherry /></el-icon>JavaScript</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="vueBtn('3')"
-          ><el-icon><Apple /></el-icon>Vue's Q&A</el-button
+          ><el-icon><Apple /></el-icon>Vue</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="JqBtn('4')"
-          ><el-icon><Pear /></el-icon>Jquery's Q&A</el-button
+          ><el-icon><Pear /></el-icon>Jquery</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="AjaxBtn('5')"
-          ><el-icon><Grape /></el-icon>Ajax's Q&A</el-button
+          ><el-icon><Grape /></el-icon>Ajax</el-button
         >
       </div>
     </div>
@@ -204,7 +211,7 @@
         <el-dialog
           @closed="closed"
           v-model="lookListVisible"
-          title="全部题库"
+          title="题库"
           width="999"
         >
           <el-table border :data="tableData" style="width: 100%">
@@ -262,8 +269,46 @@
       </div>
 
       <!-- 第三个区域展示 -->
+
       <div class="tag3" v-show="tagShow3">
-        
+        <div style="height: 400px; font-size: 14px">
+          <div>敬请期待..</div>
+        </div>
+        <div style="width: 70%; margin: 0 auto">
+          <el-carousel :interval="4000" type="card" height="200px">
+            <el-carousel-item v-for="item in images" :key="item">
+              <h3 text="2xl" justify="center">{{ item.value }}</h3>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+      </div>
+
+      <!-- 第四个区域 -->
+      <div class="tag4" v-show="tagShow4">
+        <!-- 显示区域 -->
+        <div class="comment">
+          <ul v-for="(item, index) in commentAll" :key="index">
+            <li style="font-size: 12px">
+              网友留言{{ index + 1 }} ：{{ item.content }}
+            </li>
+          </ul>
+        </div>
+        <div style="width: 90%">
+          <el-input
+            type="text"
+            style="height: 70px"
+            v-model="inputList"
+            @keyup.enter="sendBtn"
+            maxlength="100"
+            clearable
+            @input="handleInput"
+          />
+
+          <el-button @click="sendBtn">发表</el-button>
+          <span style="color: gray; margin-left: 10px; font-size: 14px"
+            >还可以输入({{ surplus }})个字</span
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -275,6 +320,7 @@ import { ref, getCurrentInstance, reactive } from "vue";
 import {
   View,
   Plus,
+  Comment,
   Avatar,
   Cherry,
   Apple,
@@ -288,6 +334,7 @@ import {
   addQuestion,
   deleteQuestion,
 } from "/src/api/questionBank";
+import { getComment, addComment } from "/src/api/comment";
 import { ElMessage } from "element-plus";
 onMounted(() => {
   // 默认选择第一个标签
@@ -298,6 +345,15 @@ onMounted(() => {
 
 const tagShow = ref(false);
 
+// 全部留言数据集合
+let commentAll = ref([]);
+
+// 留言板请求体
+let queryParamsComment = ref({
+  id: "",
+  content: "",
+});
+
 // 选择导航的显示
 const handleSelect = (key) => {
   if (key == 1) {
@@ -305,6 +361,7 @@ const handleSelect = (key) => {
     tagShow1.value = true;
     tagShow2.value = false;
     tagShow3.value = false;
+    tagShow4.value = false;
   } else if (key == 2) {
     tagShow.value = false;
     jsShow.value = false;
@@ -313,6 +370,7 @@ const handleSelect = (key) => {
     tagShow1.value = false;
     tagShow2.value = true;
     tagShow3.value = false;
+    tagShow4.value = false;
   } else if (key == 3) {
     tagShow.value = false;
     jsShow.value = false;
@@ -321,12 +379,74 @@ const handleSelect = (key) => {
     tagShow1.value = false;
     tagShow2.value = false;
     tagShow3.value = true;
+    tagShow4.value = false;
+  } else if (key == 4) {
+    tagShow.value = false;
+    jsShow.value = false;
+    vueShow.value = false;
+    HcShow.value = false;
+    tagShow1.value = false;
+    tagShow2.value = false;
+    tagShow3.value = false;
+    tagShow4.value = true;
+    // 调用留言
+    getCommentList();
   }
 };
+
+// 获取留言
+function getCommentList() {
+  getComment().then((res) => {
+    commentAll.value = res.data;
+    console.log(res.data);
+  });
+}
+
+// 初始文字数
+let initial = ref(100);
+// 剩余文字数
+let surplus = ref(100);
+// input输入
+let inputList = ref();
+
+// 输入监听
+function handleInput(e) {
+  // 监听输入值是否为空
+  if (e) {
+    surplus.value = initial.value - e.length;
+  } else {
+    // 为空就把剩余值变成100
+    surplus.value = 100;
+  }
+}
+
+// 发表按钮
+function sendBtn() {
+  console.log(inputList.value);
+  if (inputList.value == undefined || inputList.value == "") {
+    ElMessage({
+      message: "请先输入内容",
+      type: "error",
+    });
+    return;
+  }
+  queryParamsComment.value.content = inputList.value;
+  addComment(queryParamsComment.value).then((res) => {
+    commentAll.value = res;
+    getCommentList();
+  });
+
+  // 发表后将输入框置空
+  inputList.value = "";
+
+  // 发表后把剩余数变成100
+  surplus.value = 100;
+}
 
 let tagShow1 = ref(false);
 let tagShow2 = ref(false);
 let tagShow3 = ref(false);
+let tagShow4 = ref(false);
 
 let jsShow = ref(false);
 let vueShow = ref(false);
@@ -577,6 +697,10 @@ function deleteBtn(e) {
     QuestionList();
   });
 }
+
+// 轮播图数据
+let images = ref([{}, {}, {}, {}, {}, {}]);
+
 </script>
 
 <style scoped>
@@ -590,7 +714,8 @@ function deleteBtn(e) {
 }
 .textLayout,
 .tag2,
-.tag3 {
+.tag3,
+.tag4 {
   overflow-y: scroll;
   height: 640px;
   width: 75%;
@@ -647,10 +772,52 @@ function deleteBtn(e) {
   margin-right: 20px;
   display: flex;
   flex-direction: column;
-  /* margin-left: 5%; */
 }
 
 .btnMargin {
   margin-bottom: 50px;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  height: 460px;
+  width: 90%;
+  background-color: #e8e8e8;
+  opacity: 0.5;
+  margin-bottom: 30px;
+  padding: 15px;
+  overflow-y: scroll; /* 使能y轴滚动条 */
+  overflow-x: hidden; /* 隐藏x轴滚动条 */
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+  text-align: center;
+}
+
+/* 轮播图素材 */
+
+.el-carousel__item:nth-child(2n) {
+  background-image: url("../assets/素材1.png");
+  background-size: cover;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-image: url("../assets/素材2.png");
+  background-size: cover;
+}
+
+.el-carousel__item:nth-child(3n) {
+  background-image: url("../assets/素材3.png");
+  background-size: cover;
+}
+
+.el-carousel__item:nth-child(4n) {
+  background-image: url("../assets/素材4.png");
+  background-size: cover;
 }
 </style>

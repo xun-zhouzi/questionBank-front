@@ -2,7 +2,7 @@
   <div class="app">
     <div>
       <el-button class="btn" @click="loginBtn"
-        >点击进入面试题刷题系统(*￣︶￣)</el-button
+        >点击进入YF·website</el-button
       >
     </div>
   </div>
@@ -12,7 +12,6 @@
 import router from "../router";
 
 function loginBtn() {
-  console.log("跳转");
   router.push("/index");
 }
 </script>
