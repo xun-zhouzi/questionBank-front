@@ -19,7 +19,7 @@
 
         <el-menu-item index="3">
           <el-icon><Avatar /></el-icon>
-          个人
+          关于
         </el-menu-item>
 
         <el-menu-item index="4">
@@ -32,27 +32,27 @@
     <div class="tag" v-show="tagShow">
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="HcBtn('1')"
-          ><el-icon><Orange /></el-icon>Html+Css</el-button
+          ><el-icon><Orange /></el-icon>html/css</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="jsBtn('2')"
-          ><el-icon><Cherry /></el-icon>JavaScript</el-button
+          ><el-icon><Cherry /></el-icon>javascript</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="vueBtn('3')"
-          ><el-icon><Apple /></el-icon>Vue</el-button
+          ><el-icon><Apple /></el-icon>vue</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="JqBtn('4')"
-          ><el-icon><Pear /></el-icon>Jquery</el-button
+          ><el-icon><Pear /></el-icon>jquery</el-button
         >
       </div>
       <div class="btnMargin">
         <el-button style="font-size: 20px" @click="AjaxBtn('5')"
-          ><el-icon><Grape /></el-icon>Ajax</el-button
+          ><el-icon><Grape /></el-icon>ajax</el-button
         >
       </div>
     </div>
@@ -143,28 +143,31 @@
 
       <!-- 第二个区域展示 -->
       <div class="tag2" v-show="tagShow2">
-        <div class="readLayout">
-          <h5 style="color: gray">添加成功后到阅读中刷题!!</h5>
-        </div>
-        <div>
-          <el-select
-            v-model="choice"
-            width="30px"
-            placeholder="请选择要上传的类型"
-            style="width: 240px"
-            clearable
-          >
-            <el-option
-              v-for="item in typeList"
-              :key="item.id"
-              :label="item.typeName"
-              :value="item.id"
-            ></el-option>
-          </el-select>
-        </div>
-        <div>
-          <el-button @click="uploadingBtn">上传题库</el-button
-          ><el-button @click="lookListBtn">查看题库</el-button>
+        <!-- 布局 -->
+        <div style="padding-left: 20px">
+          <div class="readLayout">
+            <h5 style="color: gray">添加成功后到查阅中刷题!</h5>
+          </div>
+          <div>
+            <el-select
+              v-model="choice"
+              width="30px"
+              placeholder="请选择要上传的类型"
+              style="width: 245px"
+              clearable
+            >
+              <el-option
+                v-for="item in typeList"
+                :key="item.id"
+                :label="item.typeName"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </div>
+          <div>
+            <el-button @click="uploadingBtn">上传到</el-button
+            ><el-button @click="lookListBtn">查看题库</el-button>
+          </div>
         </div>
 
         <!-- 确定选择后的弹窗内容 -->
@@ -271,10 +274,58 @@
       <!-- 第三个区域展示 -->
 
       <div class="tag3" v-show="tagShow3">
-        <div style="height: 400px; font-size: 14px">
-          <div>敬请期待..</div>
+        <div style="height: 440px; font-size: 14px">
+          <div>
+            <el-card style="max-width: 800px; margin: 0 auto">
+              <template #header>
+                <div class="card-header">
+                  <span style="font-size: 18px">作者的话</span>
+                </div>
+              </template>
+              <div style="font-size: 16px">
+                <p>
+                  hey，你们好，我是单色，看了很多面试题的文档，一个问题可能有很多种答案，不过意思都是相同的，
+                  所以有了一个想法，就是做个录入和查看面试题的功能，进行查缺补漏，
+                  希望能给需要的人带来帮助.
+                </p>
+
+                <p>分享一首最近爱听的歌，祝你们一切顺利.</p>
+              </div>
+
+              <!-- 播放器 -->
+              <div style="display: flex; justify-content: center">
+                <div><h3>周杰伦 - 超人不会飞</h3></div>
+                <div>
+                  <audio
+                    controls
+                    style="
+                      height: 24px;
+                      position: relative;
+                      top: 7px;
+                      left: 6px;
+                    "
+                  >
+                    <source
+                      src="D:\个人\questionBankSystem\questionBank-front\src\music\周杰伦 - 超人不会飞 .mp3"
+                      type="audio/ogg"
+                    />
+                    <source
+                      src="D:\个人\questionBankSystem\questionBank-front\src\music\周杰伦 - 超人不会飞 .mp3"
+                      type="audio/mpeg"
+                    />
+                  </audio>
+                </div>
+              </div>
+              <template #footer>
+                <p style="color: gray; display: flex; justify-content: end">
+                  Copyright ◎ 2024 单色. All rights reserved.
+                </p>
+              </template>
+            </el-card>
+          </div>
         </div>
-        <div style="width: 70%; margin: 0 auto">
+        <!-- 轮播图  -->
+        <div style="width: 75%; margin: 0 auto">
           <el-carousel :interval="4000" type="card" height="200px">
             <el-carousel-item v-for="item in images" :key="item">
               <h3 text="2xl" justify="center">{{ item.value }}</h3>
@@ -288,25 +339,32 @@
         <!-- 显示区域 -->
         <div class="comment">
           <ul v-for="(item, index) in commentAll" :key="index">
-            <li style="font-size: 12px">
-              网友留言{{ index + 1 }} ：{{ item.content }}
+            <li style="font-size: 16px">
+              <el-avatar
+                :size="26"
+                src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+              />
+              <span style="position: relative; bottom: 7px; left: 6px"
+                >用户{{ index + 1 }}留言 ： {{ item.content }}</span
+              >
             </li>
           </ul>
         </div>
         <div style="width: 90%">
           <el-input
             type="text"
-            style="height: 70px"
+            style="height: 60px"
             v-model="inputList"
             @keyup.enter="sendBtn"
             maxlength="100"
             clearable
             @input="handleInput"
+            placeholder="欢迎留言 (◠‿◠)ﾉ"
           />
 
           <el-button @click="sendBtn">发表</el-button>
           <span style="color: gray; margin-left: 10px; font-size: 14px"
-            >还可以输入({{ surplus }})个字</span
+            >最多能输入100字 * 还可以输入({{ surplus }})个字</span
           >
         </div>
       </div>
@@ -407,7 +465,7 @@ let initial = ref(100);
 // 剩余文字数
 let surplus = ref(100);
 // input输入
-let inputList = ref();
+let inputList = ref("");
 
 // 输入监听
 function handleInput(e) {
@@ -423,10 +481,10 @@ function handleInput(e) {
 // 发表按钮
 function sendBtn() {
   console.log(inputList.value);
-  if (inputList.value == undefined || inputList.value == "") {
+  if (inputList.value == "") {
     ElMessage({
-      message: "请先输入内容",
-      type: "error",
+      message: "请先输入评论内容",
+      type: "warning",
     });
     return;
   }
@@ -700,7 +758,6 @@ function deleteBtn(e) {
 
 // 轮播图数据
 let images = ref([{}, {}, {}, {}, {}, {}]);
-
 </script>
 
 <style scoped>
@@ -783,7 +840,7 @@ let images = ref([{}, {}, {}, {}, {}, {}]);
   flex-direction: column;
   height: 460px;
   width: 90%;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
   opacity: 0.5;
   margin-bottom: 30px;
   padding: 15px;
@@ -802,22 +859,22 @@ let images = ref([{}, {}, {}, {}, {}, {}]);
 /* 轮播图素材 */
 
 .el-carousel__item:nth-child(2n) {
-  background-image: url("../assets/素材1.png");
+  background-image: url("../assets/element1.png");
   background-size: cover;
 }
 
 .el-carousel__item:nth-child(2n + 1) {
-  background-image: url("../assets/素材2.png");
+  background-image: url("../assets/element2.png");
   background-size: cover;
 }
 
 .el-carousel__item:nth-child(3n) {
-  background-image: url("../assets/素材3.png");
+  background-image: url("../assets/element3.png");
   background-size: cover;
 }
 
 .el-carousel__item:nth-child(4n) {
-  background-image: url("../assets/素材4.png");
+  background-image: url("../assets/element4.png");
   background-size: cover;
 }
 </style>

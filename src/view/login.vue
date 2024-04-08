@@ -1,9 +1,9 @@
 <template>
   <div class="app">
     <div>
-      <el-button class="btn" @click="loginBtn"
-        >点击进入YF·website</el-button
-      >
+
+      <el-button type="primary" plain class="btn" @click="loginBtn">click to enter</el-button>
+    
     </div>
   </div>
 </template>
@@ -16,18 +16,18 @@ function loginBtn() {
 }
 </script>
 
-<style scoped> 
+<style scoped>
 .app {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('../assets/login.jpg');
+  background-image: url("../assets/login.jpg");
   background-size: cover;
 }
 
-.btn{
- font-size: 20px;
- height: 40px;
+.btn {
+  font-size: 20px;
+  height: 40px;
 }
 </style>
