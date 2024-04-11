@@ -18,7 +18,7 @@
         </el-menu-item>
 
         <el-menu-item index="3">
-          <el-icon><Avatar /></el-icon>
+          <el-icon><Headset /></el-icon>
           关于
         </el-menu-item>
 
@@ -71,7 +71,7 @@
               :key="index"
             >
               <li>
-                <span style="color: red"> {{ index + 1 }}、</span
+                <span style="color: red"> （{{ index + 1 }}）</span
                 ><span style="font-size: 22px"> {{ item.question }}</span>
               </li>
 
@@ -87,7 +87,7 @@
               :key="index"
             >
               <li>
-                <span style="color: red"> {{ index + 1 }}、</span
+                <span style="color: red"> （{{ index + 1 }}）</span
                 ><span style="font-size: 22px"> {{ item.question }}</span>
               </li>
               <li>答：{{ item.answer }}</li>
@@ -102,7 +102,7 @@
               :key="index"
             >
               <li>
-                <span style="color: red"> {{ index + 1 }}、</span
+                <span style="color: red"> （{{ index + 1 }}）</span
                 ><span style="font-size: 22px"> {{ item.question }}</span>
               </li>
               <li>答：{{ item.answer }}</li>
@@ -117,7 +117,7 @@
               :key="index"
             >
               <li>
-                <span style="color: red"> {{ index + 1 }}、</span
+                <span style="color: red"> （{{ index + 1 }}）</span
                 ><span style="font-size: 22px"> {{ item.question }}</span>
               </li>
               <li>答：{{ item.answer }}</li>
@@ -132,7 +132,7 @@
               :key="index"
             >
               <li>
-                <span style="color: red"> {{ index + 1 }}、</span
+                <span style="color: red"> （{{ index + 1 }}）</span
                 ><span style="font-size: 22px"> {{ item.question }}</span>
               </li>
               <li>答：{{ item.answer }}</li>
@@ -146,7 +146,7 @@
         <!-- 布局 -->
         <div style="padding-left: 20px">
           <div class="readLayout">
-            <h5 style="color: gray">添加成功后到查阅中刷题!</h5>
+            <h5 style="color: gray">添加成功后到查阅中选择类型刷题!</h5>
           </div>
           <div>
             <el-select
@@ -274,26 +274,31 @@
       <!-- 第三个区域展示 -->
 
       <div class="tag3" v-show="tagShow3">
-        <div style="height: 440px; font-size: 14px">
+        <div style="height: 400px; font-size: 14px">
           <div>
-            <el-card style="max-width: 800px; margin: 0 auto">
-              <template #header>
-                <div class="card-header">
-                  <span style="font-size: 18px">作者的话</span>
-                </div>
-              </template>
-              <div style="font-size: 16px">
-                <p>
-                  hey，你们好，我是单色，看了很多面试题的文档，一个问题可能有很多种答案，不过意思都是相同的，
-                  所以有了一个想法，就是做个录入和查看面试题的功能，进行查缺补漏，
-                  希望能给需要的人带来帮助.
-                </p>
-
-                <p>分享一首最近爱听的歌，祝你们一切顺利.</p>
+            <el-card style="margin-top: 2%; padding-top: 2%;  max-width: 800px; margin: 0 auto">
+              <div
+                style="
+                  font-size: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  color: gray;
+                "
+              >
+                <div>我们每个人都是不会飞的超人</div>
+                <div>生活即使不尽如人意 迈过去 便是轻舟已过万重山</div>
               </div>
 
               <!-- 播放器 -->
-              <div style="display: flex; justify-content: center">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  padding-top: 20px;
+                "
+              >
                 <div><h3>周杰伦 - 超人不会飞</h3></div>
                 <div>
                   <audio
@@ -306,21 +311,16 @@
                     "
                   >
                     <source
-                      src="D:\个人\questionBankSystem\questionBank-front\src\music\周杰伦 - 超人不会飞 .mp3"
+                      src="../music/周杰伦 - 超人不会飞 .mp3"
                       type="audio/ogg"
                     />
                     <source
-                      src="D:\个人\questionBankSystem\questionBank-front\src\music\周杰伦 - 超人不会飞 .mp3"
+                      src="../music/周杰伦 - 超人不会飞 .mp3"
                       type="audio/mpeg"
                     />
                   </audio>
                 </div>
               </div>
-              <template #footer>
-                <p style="color: gray; display: flex; justify-content: end">
-                  Copyright ◎ 2024 单色. All rights reserved.
-                </p>
-              </template>
             </el-card>
           </div>
         </div>
@@ -345,7 +345,7 @@
                 src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
               />
               <span style="position: relative; bottom: 7px; left: 6px"
-                >用户{{ index + 1 }}留言 ： {{ item.content }}</span
+                >用户留言 {{ index + 1 }} ： {{ item.content }}</span
               >
             </li>
           </ul>
@@ -359,7 +359,7 @@
             maxlength="100"
             clearable
             @input="handleInput"
-            placeholder="欢迎留言 (◠‿◠)ﾉ"
+            placeholder="欢迎留言 (◠‿◠)ﾉ 不断完善 .."
           />
 
           <el-button @click="sendBtn">发表</el-button>
@@ -379,7 +379,7 @@ import {
   View,
   Plus,
   Comment,
-  Avatar,
+  Headset,
   Cherry,
   Apple,
   Pear,
@@ -456,7 +456,6 @@ const handleSelect = (key) => {
 function getCommentList() {
   getComment().then((res) => {
     commentAll.value = res.data;
-    console.log(res.data);
   });
 }
 
@@ -480,7 +479,6 @@ function handleInput(e) {
 
 // 发表按钮
 function sendBtn() {
-  console.log(inputList.value);
   if (inputList.value == "") {
     ElMessage({
       message: "请先输入评论内容",
@@ -758,6 +756,7 @@ function deleteBtn(e) {
 
 // 轮播图数据
 let images = ref([{}, {}, {}, {}, {}, {}]);
+
 </script>
 
 <style scoped>
