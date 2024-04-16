@@ -275,8 +275,17 @@
 
       <div class="tag3" v-show="tagShow3">
         <div style="height: 400px; font-size: 14px">
-          <div>
-            <el-card style="margin-top: 2%; padding-top: 2%;  max-width: 800px; margin: 0 auto">
+          <!-- 默认card1板块 -->
+          <div v-show="audio1">
+            <el-card
+              style="
+                margin-top: 2%;
+                padding-top: 2%;
+                max-width: 800px;
+                margin: 0 auto;
+              "
+            >
+              <!-- 文字 -->
               <div
                 style="
                   font-size: 16px;
@@ -291,7 +300,7 @@
                 <div>生活即使不尽如人意 迈过去 便是轻舟已过万重山</div>
               </div>
 
-              <!-- 播放器 -->
+              <!-- 默认播放器 -->
               <div
                 style="
                   display: flex;
@@ -304,18 +313,191 @@
                   <audio
                     controls
                     style="
-                      height: 24px;
+                      height: 30px;
                       position: relative;
                       top: 7px;
                       left: 6px;
                     "
                   >
                     <source
-                      src="../music/周杰伦 - 超人不会飞 .mp3"
+                      src="/public/周杰伦 - 超人不会飞.mp3"
                       type="audio/ogg"
                     />
                     <source
-                      src="../music/周杰伦 - 超人不会飞 .mp3"
+                      src="/public/周杰伦 - 超人不会飞.mp3"
+                      type="audio/mpeg"
+                    />
+                  </audio>
+                </div>
+              </div>
+            </el-card>
+          </div>
+          <!-- 切换card2板块 -->
+          <div v-show="audio2">
+            <el-card
+              style="
+                margin-top: 2%;
+                padding-top: 2%;
+                max-width: 800px;
+                margin: 0 auto;
+              "
+            >
+              <!-- 文字 -->
+              <div
+                style="
+                  font-size: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  color: gray;
+                "
+              >
+                <div>天空之大</div>
+                <div>任凭遨游</div>
+              </div>
+
+              <!-- 播放器 -->
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  padding-top: 20px;
+                "
+              >
+                <div><h3>Cz_9 - 你是蓝天里的孤鹤</h3></div>
+                <div>
+                  <audio
+                    controls
+                    style="
+                      height: 30px;
+                      position: relative;
+                      top: 7px;
+                      left: 6px;
+                    "
+                  >
+                    <source
+                      src="/public/你是蓝天里的孤鹤 .mp3"
+                      type="audio/ogg"
+                    />
+                    <source
+                      src="/public/你是蓝天里的孤鹤 .mp3"
+                      type="audio/mpeg"
+                    />
+                  </audio>
+                </div>
+              </div>
+            </el-card>
+          </div>
+
+          <!-- 切换card3板块 -->
+          <div v-show="audio3">
+            <el-card
+              style="
+                margin-top: 2%;
+                padding-top: 2%;
+                max-width: 800px;
+                margin: 0 auto;
+              "
+            >
+              <!-- 文字 -->
+              <div
+                style="
+                  font-size: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  color: gray;
+                "
+              >
+                <div>人心微凉</div>
+                <div>...</div>
+              </div>
+
+              <!-- 播放器 -->
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  padding-top: 20px;
+                "
+              >
+                <div><h3>K_D - 你走.mp3</h3></div>
+                <div>
+                  <audio
+                    controls
+                    style="
+                      height: 30px;
+                      position: relative;
+                      top: 7px;
+                      left: 6px;
+                    "
+                  >
+                    <source
+                      src="/public/K_D - 你走.mp3"
+                      type="audio/ogg"
+                    />
+                    <source
+                      src="/public/K_D - 你走.mp3"
+                      type="audio/mpeg"
+                    />
+                  </audio>
+                </div>
+              </div>
+            </el-card>
+          </div>
+
+          <!-- 切换card4板块 -->
+          <div v-show="audio4">
+            <el-card
+              style="
+                margin-top: 2%;
+                padding-top: 2%;
+                max-width: 800px;
+                margin: 0 auto;
+              "
+            >
+              <!-- 文字 -->
+              <div
+                style="
+                  font-size: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  color: gray;
+                "
+              >
+                <div>如果你也喜欢这种音乐</div>
+                <div>带好耳机..</div>
+              </div>
+
+              <!-- 播放器 -->
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  padding-top: 20px;
+                "
+              >
+                <div><h3>отрава музыка - Дай Мне Минуту</h3></div>
+                <div>
+                  <audio
+                    controls
+                    style="
+                      height: 30px;
+                      position: relative;
+                      top: 7px;
+                      left: 6px;
+                    "
+                  >
+                    <source
+                      src="/public/отрава музыка - Дай Мне Минуту С Тобой.mp3"
+                      type="audio/ogg"
+                    />
+                    <source
+                      src="/public/отрава музыка - Дай Мне Минуту С Тобой.mp3"
                       type="audio/mpeg"
                     />
                   </audio>
@@ -327,8 +509,17 @@
         <!-- 轮播图  -->
         <div style="width: 75%; margin: 0 auto">
           <el-carousel :interval="4000" type="card" height="200px">
-            <el-carousel-item v-for="item in images" :key="item">
-              <h3 text="2xl" justify="center">{{ item.value }}</h3>
+            <el-carousel-item
+              @click="clickBtn(item)"
+              :style="{
+                backgroundImage: `url(' ${item.src} ')`,
+                backgroundSize: `cover`,
+              }"
+              v-for="item in images"
+              :key="item"
+            >
+              <img text="2xl" justify="center" />
+              {{ item.value }}
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -374,7 +565,7 @@
 
 <script setup>
 import { onMounted } from "vue";
-import { ref, getCurrentInstance, reactive } from "vue";
+import { ref, reactive } from "vue";
 import {
   View,
   Plus,
@@ -385,6 +576,7 @@ import {
   Pear,
   Grape,
   Orange,
+  Refresh,
 } from "@element-plus/icons-vue";
 import {
   getType,
@@ -400,6 +592,11 @@ onMounted(() => {
   tagShow.value = true;
   getList();
 });
+
+let audio1 = ref(true);
+let audio2 = ref(false);
+let audio3 = ref(false);
+let audio4 = ref(false);
 
 const tagShow = ref(false);
 
@@ -755,8 +952,49 @@ function deleteBtn(e) {
 }
 
 // 轮播图数据
-let images = ref([{}, {}, {}, {}, {}, {}]);
+let images = ref([
+  {
+    id: "1",
+    src: "src/assets/element1.png",
+  },
+  {
+    id: "2",
+    src: "src/assets/element2.png",
+  },
+  {
+    id: "3",
+    src: "src/assets/element3.png",
+  },
+  {
+    id: "4",
+    src: "src/assets/element4.png",
+  },
+]);
 
+// 点击轮播图片
+function clickBtn(e) {
+  if (e.id == "1") {
+    audio1.value = true;
+    audio2.value = false;
+    audio3.value = false;
+    audio4.value = false;
+  } else if (e.id == "2") {
+    audio1.value = false;
+    audio2.value = true;
+    audio3.value = false;
+    audio4.value = false;
+  } else if (e.id == "3") {
+    audio1.value = false;
+    audio2.value = false;
+    audio3.value = true;
+    audio4.value = false;
+  } else if (e.id == "4") {
+    audio1.value = false;
+    audio2.value = false;
+    audio3.value = false;
+    audio4.value = true;
+  }
+}
 </script>
 
 <style scoped>
@@ -843,7 +1081,7 @@ let images = ref([{}, {}, {}, {}, {}, {}]);
   opacity: 0.5;
   margin-bottom: 30px;
   padding: 15px;
-  overflow-y: scroll; /* 使能y轴滚动条 */
+  overflow-y: scroll; /* 显示y轴滚动条 */
   overflow-x: hidden; /* 隐藏x轴滚动条 */
 }
 
@@ -855,25 +1093,4 @@ let images = ref([{}, {}, {}, {}, {}, {}]);
   text-align: center;
 }
 
-/* 轮播图素材 */
-
-.el-carousel__item:nth-child(2n) {
-  background-image: url("../assets/element1.png");
-  background-size: cover;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-image: url("../assets/element2.png");
-  background-size: cover;
-}
-
-.el-carousel__item:nth-child(3n) {
-  background-image: url("../assets/element3.png");
-  background-size: cover;
-}
-
-.el-carousel__item:nth-child(4n) {
-  background-image: url("../assets/element4.png");
-  background-size: cover;
-}
 </style>

@@ -47,20 +47,31 @@
       </div>
       <!-- 底部内容 -->
       <div style="padding-left: 5%; font-weight: 100">
-        <span style="padding-left: 3%; position: relative; top: -6px;"> you can find me here </span>
+        <span style="padding-left: 3%; position: relative; top: -6px">
+          you can find on
+        </span>
         <span style="padding-left: 5%"
           ><img
             @click="githubBtn"
             src="../assets/github.png"
             style="height: 30px; width: 30px" /></span
         ><span style="padding-left: 5%"
-          ><img @click="biliBtn" src="../assets/bilibili.png" style="height: 30px; width: 30px"
+          ><img
+            @click="biliBtn"
+            src="../assets/bilibili.png"
+            style="height: 30px; width: 30px"
         /></span>
         <span style="padding-left: 5%"
-          ><img @click="csdnBtn" src="../assets/csdn.png" style="height: 30px; width: 30px"
+          ><img
+            @click="csdnBtn"
+            src="../assets/csdn.png"
+            style="height: 30px; width: 30px"
         /></span>
         <span style="padding-left: 5%"
-          ><img @click="weiboBtn" src="../assets/weibo.png" style="height: 30px; width: 30px"
+          ><img
+            @click="weiboBtn"
+            src="../assets/weibo.png"
+            style="height: 30px; width: 30px"
         /></span>
       </div>
     </div>
@@ -79,23 +90,23 @@ function loginBtn() {
 }
 
 // github链接
-function githubBtn() { 
-  window.open('https://github.com/xun-zhouzi');
+function githubBtn() {
+  window.open("https://github.com/xun-zhouzi");
 }
 
 // bilibili链接
-function biliBtn() { 
-  window.open('https://space.bilibili.com/411042070?spm_id_from=333.1007.0.0');
+function biliBtn() {
+  window.open("https://space.bilibili.com/411042070?spm_id_from=333.1007.0.0");
 }
 
 // csdn链接
-function csdnBtn() { 
-  window.open('https://blog.csdn.net/weixin_52046027?spm=1000.2115.3001.5343');
+function csdnBtn() {
+  window.open("https://blog.csdn.net/weixin_52046027?spm=1000.2115.3001.5343");
 }
 
 // 微博链接
-function weiboBtn() { 
-  window.open('https://weibo.com/u/5886614982');
+function weiboBtn() {
+  window.open("https://weibo.com/u/5886614982");
 }
 </script>
 
